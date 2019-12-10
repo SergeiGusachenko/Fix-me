@@ -11,7 +11,6 @@ public class Broker extends ABroker implements IBroker {
     private Map<UUID, String> markets;
     public ArrayList<Production> instruments;
     private String name;
-
     public Broker(String name,Map<UUID, String> markets)
     {
         super();
