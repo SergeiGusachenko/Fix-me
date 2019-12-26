@@ -1,15 +1,4 @@
-package com.sgusache.ft.Market;
+package com.sgusache.ft.market;
 
-import com.sgusache.ft.Production.Production;
-
-import java.util.ArrayList;
-import java.util.UUID;
-
-
-public class Market extends AMarket{
-    public ArrayList<Production> instruments;
-    public Market() {
-
-    }
-
+public class Market {
 }

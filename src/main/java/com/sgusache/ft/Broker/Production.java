@@ -1,6 +1,9 @@
-package com.sgusache.ft.Production;
+package com.sgusache.ft.broker;
+
+import java.util.UUID;
 
 public interface Production {
+    UUID getID();
     String getName();
     Integer getQuantity();
     Integer getPrice();

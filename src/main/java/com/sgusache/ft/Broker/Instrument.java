@@ -1,17 +1,24 @@
-package com.sgusache.ft.Production;
+package com.sgusache.ft.broker;
 
-import com.sgusache.ft.Production.Production;
+
+import java.util.UUID;
 
 public class Instrument implements Production {
     private String name;
     private Integer price;
     private Integer quant;
-
-    public Instrument(String name, Integer price, Integer quant)
+    private UUID id;
+    public Instrument(String name, Integer price, Integer quant,UUID id)
     {
         this.name = name;
         this.price = price;
         this.quant = quant;
+        this.id = id;
+    }
+
+    @Override
+    public UUID getID() {
+        return id;
     }
 
     public String getName() {
@@ -25,6 +32,7 @@ public class Instrument implements Production {
     public Integer getPrice() {
         return this.price;
     }
+    public Integer getQuant(){return this.quant;}
 
     public void increaseQuant(Integer count) {
         this.quant += count;
