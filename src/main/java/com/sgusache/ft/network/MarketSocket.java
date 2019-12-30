@@ -1,21 +1,27 @@
 package com.sgusache.ft.network;
 
+import com.sgusache.ft.market.Market;
+
 import java.io.*;
 
 public class MarketSocket extends TradeSocket implements Runnable{
-    private static BufferedReader input = null;
-    private int port;
+    private Market market;
 
     public MarketSocket(int port){
         super(port);
-        this.port = port;
     }
 
     @Override
-    protected void sendToBroker(String s) {
-        System.out.println("sendTOBROKERINIDE MARKET");
+    protected void sendToExecute(String s) {
+        if(this.market != null)
+            this.market.executeMessage(s);
+
     }
 
+    public void setEnvironment(Market market){
+        if(this.market == null)
+            this.market = market;
+    }
     public static void main(String[] args){
         Runnable rout = new MarketSocket(5001);
         rout.run();

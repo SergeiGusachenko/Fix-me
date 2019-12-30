@@ -4,24 +4,19 @@ import javax.xml.bind.DatatypeConverter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class FixMessage {
-    public String id;
-    public String instrument;
-    public Integer quantity;
-    public Integer price;
-    public String marketName;
+public class FixMessage { ;
+    private static FixMessage instance;
+    private FixMessage(){}
 
-    public FixMessage(){}
-
-    public FixMessage(String id, String instrument, int quantity, int price, String marketName) {
-        this.id = id;
-        this.instrument = instrument;
-        this.quantity = quantity;
-        this.price = price;
-        this.marketName = marketName;
+    public static synchronized FixMessage getInstance(){
+        if(instance == null)
+        {
+            instance = new FixMessage();
+        }
+        return instance;
     }
 
-    public String prepareToSend(String operation) {
+    public String prepareToSend(String id, String instrument, Integer quantity, Integer price, String marketName, String operation) {
         String message = new String(id + ' ' + instrument + ' ' + quantity.toString() + ' ' + price.toString() + ' ' + marketName + ' ' + operation);
         MessageDigest md = null;
         try {
@@ -35,14 +30,6 @@ public class FixMessage {
         String myHash = DatatypeConverter
                 .printHexBinary(digest).toUpperCase();
         return message + ' ' + myHash;
-    }
-
-    public boolean getDirection(String s, String smth) {
-        for (String retval : s.split(" ")) {
-            if (retval.equals(smth))
-                return true;
-        }
-        return false;
     }
 
 }

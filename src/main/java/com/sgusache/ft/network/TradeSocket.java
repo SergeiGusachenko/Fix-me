@@ -1,9 +1,5 @@
 package com.sgusache.ft.network;
-
-import com.sgusache.ft.FIX.FixMessage;
-import com.sgusache.ft.broker.Broker;
 import javafx.util.Pair;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,8 +15,6 @@ import java.util.Set;
 public abstract class TradeSocket {
     private static BufferedReader input = null;
     private int port;
-    private String idMarket;
-    private String idBroker;
     private MessageHendler messageHendler;
     public TradeSocket(int port){
             this.port = port;
@@ -29,9 +23,6 @@ public abstract class TradeSocket {
 
     public void addMessage(String message, int port){
         messageHendler.addMessage(message, port);
-    }
-    private Pair<String, Integer> getMessage() {
-        return messageHendler.getNextMessage();
     }
 
     public synchronized Boolean processConnect(SelectionKey key) {
@@ -47,7 +38,7 @@ public abstract class TradeSocket {
         }
         return true;
     }
-    protected abstract void sendToBroker(String s);
+    protected abstract void sendToExecute(String s);
 
     public synchronized Boolean processReadySet(Set readySet)
             throws Exception {
@@ -71,16 +62,8 @@ public abstract class TradeSocket {
             ByteBuffer bb = ByteBuffer.allocate(512);
             sc.read(bb);
             String result = new String(bb.array()).trim();
-            System.out.println("\n ***  " + this.getClass().getName() + " ***  ");
-            System.out.println("Message received from Server: " + result + " Message length= "+ result.length());
-            /// *** /// *** /// *** .... Part where i'm will call function from Broker or Market to handle message;
-            //if(new FixMessage().getDirection(result, "broker"))
-                sendToBroker(result);
-            /// *** /// *** /// *** .... Part where i'm will call function from Broker or Market to handle message; END
-            if(sc.socket().getPort() == 5001)
-                this.idMarket = result;
-            else
-                this.idBroker = result;
+            System.out.println("\n ***  " + this.getClass().getName() + " ***  " + "Message received from Server: " + result + " Message length= "+ result.length());
+            sendToExecute(result);
         }
 
         if (key.isWritable()) {
@@ -90,7 +73,6 @@ public abstract class TradeSocket {
                 Thread.currentThread().sleep(10000);
                 SocketChannel sc = (SocketChannel) key.channel();
                 ByteBuffer bb = ByteBuffer.wrap(message.getKey().getBytes());
-//                ByteBuffer bb = ByteBuffer.wrap(msg.getBytes());
                 sc.write(bb);
             }
         }

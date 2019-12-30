@@ -32,7 +32,6 @@ public class Instrument implements Production {
     public Integer getPrice() {
         return this.price;
     }
-    public Integer getQuant(){return this.quant;}
 
     public void increaseQuant(Integer count) {
         this.quant += count;

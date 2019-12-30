@@ -2,6 +2,8 @@ package com.sgusache.ft.network;
 
 import javafx.util.Pair;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -22,6 +24,7 @@ public class MessageHendler {
         }
         messages.add(new Pair<>(message, port));
     }
+
     public Pair<String, Integer> getNextMessage() {
         return messages.poll();
     }

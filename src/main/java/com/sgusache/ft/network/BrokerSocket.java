@@ -11,12 +11,13 @@ public class BrokerSocket extends TradeSocket implements Runnable{
     }
 
     public void setEnvironment(Broker broker) {
-        if(this.broker == null)
+        if (this.broker == null)
             this.broker = broker;
     }
-    protected void sendToBroker(String s){
-        if(this.broker != null)
-            this.broker.exectuteMessage(s);
+
+    protected void sendToExecute(String s){
+        if (this.broker != null)
+            this.broker.executeMessage(s);
     }
 
     @Override

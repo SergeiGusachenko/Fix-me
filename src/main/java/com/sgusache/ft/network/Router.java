@@ -48,7 +48,7 @@ public class Router implements Runnable
                     socketChannel.register(selector, SelectionKey.OP_READ);
                     switch (socketChannel.socket().getLocalPort()) {
                         case 5000:
-                            System.out.println("\n ***  " + this.getClass().getName() + " ***  ");
+                            System.out.print("\n ***  " + this.getClass().getName() + " ***  ");
                             System.out.println("Connection Accepted: " + socketChannel.getLocalAddress() + "\n");
                             acceptList.add(5000);
                             ByteBuffer bb = ByteBuffer.wrap(brokerID.toString().getBytes());
@@ -56,7 +56,7 @@ public class Router implements Runnable
                             // handle connection for the first port (5000)
                             break;
                         case 5001:
-                            System.out.println("\n ***  " + this.getClass().getName() + " ***  ");
+                            System.out.print("\n ***  " + this.getClass().getName() + " ***  ");
                             System.out.println("Connection Accepted: " + socketChannel.getLocalAddress() + "\n");
                             ByteBuffer cc = ByteBuffer.wrap(marketID.toString().getBytes());
                             socketChannel.write(cc);
@@ -64,8 +64,7 @@ public class Router implements Runnable
                             acceptList.add(5001);
                             break;
                     }
-                }
-                }else if (selectedKey.isReadable()) {
+                } }else if (selectedKey.isReadable()) {
                     SocketChannel sc = (SocketChannel) selectedKey.channel();
                     ByteBuffer bb = ByteBuffer.allocate(1024);
                     sc.read(bb);
@@ -74,7 +73,7 @@ public class Router implements Runnable
                     {
                         System.out.println("\n ***  " + this.getClass().getName() + " ***  ");
                         System.out.println("Message received: " + result  + " Message length= " + result.length() +" " +"From : " + (sc.socket().getLocalPort() == 5000 ? "Broker" : "Market" ));
-                        messageHendler.addMessage(result, sc.socket().getPort());
+                        messageHendler.addMessage(result, sc.socket().getLocalPort());
                     }
                     Pair<String, Integer> message = messageHendler.peekMessage();
                     if( message != null  && sc.socket().getLocalPort() != (message.getValue()))
@@ -85,7 +84,6 @@ public class Router implements Runnable
                         cc.clear();
                     }
                 }
-
             }
         }
     }
