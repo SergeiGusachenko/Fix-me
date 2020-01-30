@@ -3,7 +3,7 @@
 
 ## Mandatory part
 You need to implement simulation tools for the financial markets that exchange a simplified version of FIX messages. The tools will be able to communicate over a network
-using the TCP protocol.
+using the TCP protocol.<br />
 • All messages will respect the FIX notation.<br />
 • All messages will start with the ID asigned by the router and will be ended by the checksum.<br />
 • You store all transactions in a database<br />
